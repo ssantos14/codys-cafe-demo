@@ -53,14 +53,14 @@ describe('Funky functions', () => {
       const arr1 = ['a', 'b', 'c']
       const arr2 = ['b', 'i', 'c']
 
-      expect(intersection(arr1, arr2)).to.deep.equal(['b'])
+      expect(intersection(arr1, arr2)).to.deep.equal(['b', 'c'])
     })
 
     xit('EXTRA CREDIT: works for any number of arrays', () => {
       const arr1 = [1, 2, 3]
       const arr2 = [4, 5, 6]
       const arr3 = [2, 1, 1]
-      const arr4 = [6, 7, 8]
+      const arr4 = [6, 1, 8]
 
       expect(intersection(arr1, arr2, arr3, arr4)).to.deep.equal([1, 2, 6])
     })
