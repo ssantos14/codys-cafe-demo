@@ -76,7 +76,7 @@ describe('Funky functions', () => {
 
     it('recursively flattens array', () => {
       expect(flattenDeep([1, [2]])).to.deep.equal([1, 2])
-      expect(flattenDeep([1, [2], 3, [4, 5]])).to.deep.equal(1, 2, 3, 4, 5)
+      expect(flattenDeep([1, [2], 3, [4, 5]])).to.deep.equal([1, 2, 3, 4, 5])
     })
 
     it('does not mutate original array', () => {
