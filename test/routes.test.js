@@ -1,26 +1,160 @@
 /* eslint-env mocha, chai */
 
 const {expect} = require('chai')
-const request = require('supertest');
-const app = require('../server/app');
-const agent = request.agent(app);
-const {db} = require('../server/models');
+const sinon = require('sinon')
+const supertest = require('supertest')
+const app = require('../server/app')
+const agent = supertest.agent(app)
+const seed = require('./test-seed')
+const {Pug, Coffee} = require('../server/models')
 
+// NOTE: there is some dependency on your Pug and Coffee model
+// for the Routes test to work. At minimum, you will need to define
+// their schema and associations
 describe('Routes', () => {
+  // Make sure to check out test/test-seed.js
+  // This file drops the database and re-creates the dummy data
+  // used by the tests.
+  let puppacino, mocha, cody, doug, penny
+  beforeEach(async () => {
+    [puppacino, mocha, cody, doug, penny] = seed()
+  })
+
   describe('/pugs', () => {
-    describe('GET /pugs', () => {})
-    describe('GET /pugs/:pugId', () => {})
-    describe('POST /pugs', () => {})
-    describe('PUT /pugs/:pugId', () => {})
-    describe('DELETE /pugs/:pugId', () => {})
+    xdescribe('GET /pugs', async () => {
+      it('sends all pugs', () => {
+        return agent
+          .get('/api/pugs')
+          .expect(200)
+          .then((res) => {
+            expect(res.body).to.be.an('array')
+            expect(res.body.some(pug => pug.name === 'Cody')).to.equal(true)
+            expect(res.body.some(pug => pug.name === 'Doug')).to.equal(true)
+            expect(res.body.some(pug => pug.name === 'Penny')).to.equal(true)
+          })
+      })
+    })
+
+    xdescribe('GET /pugs/favoriteCoffee/:favoriteCoffeeName', () => {
+      // Be careful about the order in which you register your routes!
+      // Don't forget that Express evaluates them in the order in which they're defined!
+      it('sends all pugs based on the specified favorite coffe name', async () => {
+        await agent
+          .get('/api/pugs/puppacino')
+          .expect(200)
+          .then((res) => {
+            expect(res.body).to.be.an('array')
+            expect(res.body.length).to.equal(2)
+            expect(res.body.some(pug => pug.name === 'Cody')).to.equal(true)
+            expect(res.body.some(pug => pug.name === 'Penny')).to.equal(true)
+          })
+
+        await agent
+          .get('/api/pugs/mocha')
+          .expect(200)
+          .then((res) => {
+            expect(res.body).to.be.an('array')
+            expect(res.body.length).to.equal(1)
+            expect(res.body.some(pug => pug.name === 'Doug')).to.equal(true)
+          })
+      })
+
+      it('calls the Pug.findByCoffee class method', () => {
+        // todo
+      })
+    })
+
+    xdescribe('GET /pugs/:pugId', () => {
+      it('gets the pug with the specified id', async () => {
+        await agent
+          .get(`/api/pugs/${cody.id}`)
+          .expect(200)
+          .then((res) => {
+            expect(res.body).to.be.an('object')
+            expect(res.body.name).to.equal('Cody')
+          })
+
+        await agent
+          .get(`/api/pugs/${penny.id}`)
+          .expect(200)
+          .then((res) => {
+            expect(res.body).to.be.an('object')
+            expect(res.body.name).to.equal('Penny')
+          })
+      })
+
+      it('sends a 404 if not found', () => {
+        return agent
+          .get(`/api/pugs/20`)
+          .expect(404)
+      })
+    })
+
+    xdescribe('POST /pugs', () => {
+      it('creates a new pug and sends back the new pug', async () => {
+        await agent
+          .post('/api/pugs')
+          .send({
+            name: 'Loca'
+          })
+          .expect(201)
+          .then((res) => {
+            expect(res.body).to.be.an('object')
+            expect(res.body.name).to.equal('Loca')
+          })
+
+        const loca = await Pug.findOne({
+          where: {
+            name: 'Loca'
+          }
+        })
+
+        expect(loca).to.be.an('object')
+        expect(loca.name).to.equal('Loca')
+      })
+    })
+
+    xdescribe('PUT /pugs/:pugId', () => {
+      it('updates an existing pug', async () => {
+        // todo
+      })
+
+      it('sends a 404 if not found', () => {
+        return agent
+          .delete(`/api/pugs/20`)
+          .expect(404)
+      })
+    })
+
+    xdescribe('DELETE /pugs/:pugId', () => {
+      it('removes a pug from the database', async () => {
+        // todo
+      })
+
+      it('sends a 404 if not found', () => {
+        return agent
+          .delete(`/api/pugs/20`)
+          .expect(404)
+      })
+    })
   })
 
   describe('/coffee', () => {
-    describe('GET /coffee', () => {})
-    describe('GET /coffee/:coffeeId', () => {})
-    describe('GET /coffee/:coffeeId/pugs', () => {})
-    describe('POST /coffee', () => {})
-    describe('PUT /coffee/:coffeeId', () => {})
-    describe('DELETE /coffee/:coffeeId', () => {})
+    xdescribe('GET /coffee', () => {})
+
+    xdescribe('GET /coffee/ingredients/:ingredientName', () => {
+      // Depends on coffee.model.js
+      // Also, be careful about the order in which you register your routes!
+      // Don't forget that Express evaluates them in the order in which they're defined!
+
+    })
+
+    xdescribe('GET /coffee/:coffeeId', () => {})
+
+    xdescribe('POST /coffee', () => {})
+
+    xdescribe('PUT /coffee/:coffeeId', () => {})
+
+    xdescribe('DELETE /coffee/:coffeeId', () => {})
   })
 })
