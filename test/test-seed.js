@@ -6,11 +6,11 @@ module.exports = async () => {
   const [coffee1, coffee2] = Promise.all([
     Coffee.create({
       name: 'puppaccino',
-      ingredients: ['espresso', 'frothed milk', 'love']
+      ingredients: ['espresso', 'frothed-milk', 'love']
     }),
     Coffee.create({
       name: 'mocha',
-      ingredients: ['espresso', 'hot cocoa', 'whipped cream', 'love']
+      ingredients: ['espresso', 'hot-cocoa', 'whipped-cream', 'love']
     })
   ])
 

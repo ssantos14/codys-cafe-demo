@@ -8,13 +8,13 @@ xdescribe('Coffee model', () => {
 
   xdescribe('column definitions and validations', () => {
     it('has a `name` and `ingredients`', async () => {
-      const puppacino = await Coffee.create({
+      const puppaccino = await Coffee.create({
         name: 'Puppaccino',
         ingredients: ['espresso', 'frothed milk', 'love']
       })
 
-      expect(puppacino.name).to.equal('Puppaccino')
-      expect(puppacino.ingredients).to.deep.equal(['espresso', 'frothed milk', 'love'])
+      expect(puppaccino.name).to.equal('Puppaccino')
+      expect(puppaccino.ingredients).to.deep.equal(['espresso', 'frothed milk', 'love'])
     })
 
     it('`name` is required', async () => {
@@ -35,7 +35,7 @@ xdescribe('Coffee model', () => {
 
   xdescribe('instance method: getIngredients', () => {
     it('returns list of ingredients as a comma-delimited string', async () => {
-      const puppacino = await Coffee.create({
+      const puppaccino = await Coffee.create({
         name: 'Puppaccino',
         ingredients: ['espresso', 'frothed milk', 'love']
       })
@@ -45,7 +45,7 @@ xdescribe('Coffee model', () => {
         ingredients: ['espresso', 'ice', 'sugar', 'love']
       })
 
-      expect(puppacino.getIngredients()).to.equal('espresso, frothed milk, love')
+      expect(puppaccino.getIngredients()).to.equal('espresso, frothed milk, love')
       expect(frappeAllaPug.getIngredients()).to.equal('espresso, ice, sugar, love')
     })
   })

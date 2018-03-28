@@ -18,7 +18,7 @@ describe('Routes', () => {
   let puppaccino, mocha, cody, doug, penny
 
   beforeEach(async () => {
-    [puppaccino, mocha, cody, doug, penny] = seed()
+    [puppaccino, mocha, cody, doug, penny] = await seed()
   })
 
   describe('/pugs', () => {

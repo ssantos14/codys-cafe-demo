@@ -28,6 +28,10 @@ We're building out the cafe's backend! Here's what I have planned:
   * This will go in `server/models/pug.model.js`
   * The specs are in `test/pug.model.test.js`
 
+* We'll serve up the coffee resource via `/api/coffee`!
+  * This will go in `server/routes/coffee.router.js`
+  * The specs are in `test/coffee.routes.test.js`
+
 * We'll serve up the pugs resource via `/api/pugs`!
   * This will go in `server/routes/pug.router.js`
   * The specs are in `test/pug.routes.test.js`
