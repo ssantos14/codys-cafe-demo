@@ -58,6 +58,7 @@ xdescribe('Pug model', () => {
       expect(pug.favoriteCoffeeId).to.be.equal(coffee.id)
     })
 
+    // note: be careful - the pluralization is important here!
     it('has a many-many relationship with other Pugs as `friends`', async () => {
       const penny = await Pug.create({name: 'Penny'})
       const doug = await Pug.create({name: 'Doug'})
@@ -81,7 +82,7 @@ xdescribe('Pug model', () => {
 
   xdescribe('instance method: shortBio', () => {
     // Note: the first sentence might be defined as all of the text
-    // leading up and including to the first period,
+    // leading up to but not including the first period,
     // question mark, or exclamation point.
     it('returns first sentence of bio', async () => {
       const cody = await Pug.create({
@@ -99,12 +100,13 @@ xdescribe('Pug model', () => {
         biography: 'Who is Penny the Pug? Only the most popular pug around!'
       })
 
-      expect(cody.shortBio()).to.be.equal('He is a pug.')
-      expect(doug.shortBio()).to.be.equal('He is internet famous!')
-      expect(penny.shortBio()).to.be.equal('Who is Penny the Pug?')
+      expect(cody.shortBio()).to.be.equal('He is a pug')
+      expect(doug.shortBio()).to.be.equal('He is internet famous')
+      expect(penny.shortBio()).to.be.equal('Who is Penny the Pug')
     })
   })
 
+  // Check out: http://docs.sequelizejs.com/manual/tutorial/querying.html#relations-associations
   xdescribe('class method: `findByCoffee`', () => {
     it('finds all pugs with the given favorite coffee', async () => {
       const latte = await Coffee.create({name: 'latte'})
