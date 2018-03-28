@@ -14,7 +14,7 @@ First thing's first!
 
 This runs all the specs you need to build out my cafe api! They of course run with `mocha` and `chai`!
 
-I can't wait! Let's get started!
+I can't wait! This is going to be spec-tacular! Let's get started!
 
 ## Code
 
