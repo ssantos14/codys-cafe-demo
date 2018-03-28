@@ -85,7 +85,7 @@ xdescribe('Pug model', () => {
     // leading up and including to the first period,
     // question mark, or exclamation point.
     it('returns first sentence of bio', async () => {
-      const cody = Pug.create({
+      const cody = await Pug.create({
         name: 'Cody',
         biography: 'He is a pug. A cuddly pug. But also kind of a brat.'
       })
