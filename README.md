@@ -11,6 +11,7 @@ First thing's first!
 * Fork and clone this repo!
 * `npm install`
 * `npm test`
+* `createdb codys_cafe` (or if you don't the `createdb` utility, simply create a database called `codys_cafe` via your preferred means)
 
 This runs all the specs you need to build out my cafe api! They of course run with `mocha` and `chai`!
 
