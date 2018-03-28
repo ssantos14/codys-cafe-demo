@@ -45,7 +45,8 @@ xdescribe('Pug model', () => {
       expect(pug.biography).to.equal(longBio)
     })
 
-    // note: this requires a working Coffee model
+    // Make sure that you define the associations in `server/models/index.js`!
+    // Note: this requires a working Coffee model
     it('has a one-many relationship with Coffee, via `favoriteCoffee`', async () => {
       const pug = await Pug.create({name: 'Joe'})
       const coffee = await Coffee.create({
@@ -58,7 +59,8 @@ xdescribe('Pug model', () => {
       expect(pug.favoriteCoffeeId).to.be.equal(coffee.id)
     })
 
-    // note: be careful - the pluralization is important here!
+    // Make sure that you define the associations in `server/models/index.js`!
+    // Note: be careful - the pluralization is important here!
     it('has a many-many relationship with other Pugs as `friends`', async () => {
       const penny = await Pug.create({name: 'Penny'})
       const doug = await Pug.create({name: 'Doug'})
