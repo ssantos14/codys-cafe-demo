@@ -53,7 +53,7 @@ xdescribe('Pug model', () => {
         ingredients: ['espresso', 'frothed milk', 'love']
       })
 
-      await pug.setCoffee(coffee)
+      await pug.setFavoriteCoffee(coffee)
 
       expect(pug.favoriteCoffeeId).to.be.equal(coffee.id)
     })
@@ -65,7 +65,7 @@ xdescribe('Pug model', () => {
       const friends = await penny.getFriends()
       expect(friends).to.be.an('array')
       expect(friends.length).to.equal(1)
-      expect(friends[0].name).to.equal('doug')
+      expect(friends[0].name).to.equal('Doug')
     })
   })
 
