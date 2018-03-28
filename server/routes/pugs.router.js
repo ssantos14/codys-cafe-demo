@@ -2,6 +2,6 @@ const router = require('express').Router()
 
 // Your code here!
 // Remember that these routes are already mounted on
-// /pugs!
+// /api/pugs!
 
 module.exports = router

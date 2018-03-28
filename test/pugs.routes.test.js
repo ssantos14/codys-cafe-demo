@@ -6,7 +6,7 @@ const supertest = require('supertest')
 const app = require('../server/app')
 const agent = supertest.agent(app)
 const seed = require('./test-seed')
-const {Pug, Coffee} = require('../server/models')
+const {Pug} = require('../server/models')
 
 // NOTE: there is some dependency on your Pug and Coffee model
 // for the Routes test to work. At minimum, you will need to define
@@ -15,9 +15,10 @@ describe('Routes', () => {
   // Make sure to check out test/test-seed.js
   // This file drops the database and re-creates the dummy data
   // used by the tests.
-  let puppacino, mocha, cody, doug, penny
+  let puppaccino, mocha, cody, doug, penny
+
   beforeEach(async () => {
-    [puppacino, mocha, cody, doug, penny] = seed()
+    [puppaccino, mocha, cody, doug, penny] = seed()
   })
 
   describe('/pugs', () => {
@@ -40,7 +41,7 @@ describe('Routes', () => {
       // Don't forget that Express evaluates them in the order in which they're defined!
       it('sends all pugs based on the specified favorite coffe name', async () => {
         await agent
-          .get('/api/pugs/puppacino')
+          .get('/api/pugs/puppaccino')
           .expect(200)
           .then((res) => {
             expect(res.body).to.be.an('array')
@@ -59,8 +60,21 @@ describe('Routes', () => {
           })
       })
 
-      it('calls the Pug.findByCoffee class method', () => {
-        // todo
+      it('calls the Pug.findByCoffee class method', async () => {
+        sinon.spy(Pug, 'findByCoffee')
+
+        await agent
+          .get('/api/pugs/puppaccino')
+          .expect(200)
+          .then((res) => {
+            expect(Pug.findByCoffee.calledOnce).to.equal(true)
+            expect(Pug.findByCoffee.calledWith('puppaccino'))
+            Pug.findByCoffee.restore()
+          })
+          .catch((err) => {
+            Pug.findByCoffee.restore()
+            throw err
+          })
       })
     })
 
@@ -116,7 +130,20 @@ describe('Routes', () => {
 
     xdescribe('PUT /pugs/:pugId', () => {
       it('updates an existing pug', async () => {
-        // todo
+        await agent
+          .post(`/api/pugs/${cody.id}`)
+          .send({
+            favoriteCoffeeId: mocha.id
+          })
+          .expect(200)
+          .then(res => {
+            expect(res.body).to.be.an('object')
+            expect(res.body.name).to.equal('Cody')
+            expect(res.body.favoriteCoffeeId).to.equal(mocha.id)
+          })
+
+        const codyFromDatabase = await Pug.findById(cody.id)
+        expect(codyFromDatabase.favoriteCoffeeId).to.equal(mocha.id)
       })
 
       it('sends a 404 if not found', () => {
@@ -126,9 +153,14 @@ describe('Routes', () => {
       })
     })
 
-    xdescribe('DELETE /pugs/:pugId', () => {
+    xdescribe('DELETE /pugs/:pugId', async () => {
       it('removes a pug from the database', async () => {
-        // todo
+        await agent
+          .delete(`/api/pugs/${doug.id}`) // Oh noes! Bye, Doug!
+          .expect(204)
+
+        const isDougStillThere = await Pug.findById(doug.id)
+        expect(isDougStillThere).to.equal(null)
       })
 
       it('sends a 404 if not found', () => {
@@ -137,24 +169,5 @@ describe('Routes', () => {
           .expect(404)
       })
     })
-  })
-
-  describe('/coffee', () => {
-    xdescribe('GET /coffee', () => {})
-
-    xdescribe('GET /coffee/ingredients/:ingredientName', () => {
-      // Depends on coffee.model.js
-      // Also, be careful about the order in which you register your routes!
-      // Don't forget that Express evaluates them in the order in which they're defined!
-
-    })
-
-    xdescribe('GET /coffee/:coffeeId', () => {})
-
-    xdescribe('POST /coffee', () => {})
-
-    xdescribe('PUT /coffee/:coffeeId', () => {})
-
-    xdescribe('DELETE /coffee/:coffeeId', () => {})
   })
 })
