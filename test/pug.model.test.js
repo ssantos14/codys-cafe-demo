@@ -28,8 +28,7 @@ xdescribe('Pug model', () => {
           },
           (err) => {
             expect(err).to.be.an('error')
-            expect(err.path).to.equal('name')
-            expect(err.type).to.equal('notNull Violation')
+            expect(err.name).to.equal('SequelizeValidationError')
           }
         )
     })
