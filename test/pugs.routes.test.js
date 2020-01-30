@@ -22,8 +22,8 @@ describe('Routes', () => {
     [puppaccino, mocha, cody, doug, penny] = await seed()
   })
 
-  describe('/pugs', () => {
-    xdescribe('GET /pugs', () => {
+  describe.only('/pugs', () => {
+    describe('GET /pugs', () => {
       it('sends all pugs', () => {
         return agent
           .get('/api/pugs')
@@ -37,7 +37,7 @@ describe('Routes', () => {
       })
     })
 
-    xdescribe('GET /pugs/favoriteCoffee/:favoriteCoffeeName', () => {
+    describe('GET /pugs/favoriteCoffee/:favoriteCoffeeName', () => {
       // Be careful about the order in which you register your routes!
       // Don't forget that Express evaluates them in the order in which they're defined!
       it('sends all pugs based on the specified favorite coffe name', async () => {
@@ -79,7 +79,7 @@ describe('Routes', () => {
       })
     })
 
-    xdescribe('GET /pugs/:pugId', () => {
+    describe('GET /pugs/:pugId', () => {
       it('gets the pug with the specified id', async () => {
         await agent
           .get(`/api/pugs/${cody.id}`)
@@ -105,7 +105,7 @@ describe('Routes', () => {
       })
     })
 
-    xdescribe('POST /pugs', () => {
+    describe('POST /pugs', () => {
       it('creates a new pug and sends back the new pug', async () => {
         await agent
           .post('/api/pugs')
@@ -129,7 +129,7 @@ describe('Routes', () => {
       })
     })
 
-    xdescribe('PUT /pugs/:pugId', () => {
+    describe('PUT /pugs/:pugId', () => {
       it('updates an existing pug', async () => {
         await agent
           .put(`/api/pugs/${cody.id}`)
@@ -154,7 +154,7 @@ describe('Routes', () => {
       })
     })
 
-    xdescribe('DELETE /pugs/:pugId', async () => {
+    describe('DELETE /pugs/:pugId', async () => {
       it('removes a pug from the database', async () => {
         await agent
           .delete(`/api/pugs/${doug.id}`) // Oh noes! Bye, Doug!
